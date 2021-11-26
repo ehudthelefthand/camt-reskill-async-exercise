@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <form @submit.prevent="register">
-    <!-- <form> -->
       <div>
         <label for="firstname">First Name: </label>
         <input type="text" id="firstname" v-model="form.firstname">
@@ -52,23 +51,15 @@
       <div>Last Name: {{ profile.lastname }}</div>
       <div>Phone Name: {{ profile.phoneNumber }}</div>
       <div>Email: {{ profile.email }}</div>
-      <div>Avatar: <img :src="`https://camt-foodapi.pair-co.com${ profile.avatar }`" width="100"></div>
+      <div v-if="profile.avatar">Avatar: <img :src="profileAvatar" width="100"></div>
     </div>
   </div>
 </template>
 
 <script>
 
-const host = 'https://camt-foodapi.pair-co.com'
-
-// {
-// 	"firstname": "Peerawat",
-// 	"lastname": "Poombua",
-// 	"phoneNumber": "1324131515",
-// 	"email": "pongneng@test.com",
-// 	"password": "abcd1234",
-// 	"avatar": ""
-// }
+// const host = 'https://camt-foodapi.pair-co.com'
+const host = 'http://localhost:3000'
 
 export default {
   name: 'App',
@@ -116,6 +107,7 @@ export default {
     },
     addAvatar(event) {
       this.avatar = event.target.files[0]
+      console.log(this.avatar)
     },
     login() {
       const loginURL = `${host}/login`
@@ -157,6 +149,9 @@ export default {
       .catch(err => {
         alert(err)
       })
+    },
+    profileAvatar() {
+      return `${host}${this.profile.avatar}`
     }
   }
 }
